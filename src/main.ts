@@ -42,7 +42,7 @@ export class MyPipeline extends Stack {
     });
 
     const pipeline = new cdkpipelines.CodePipeline(this, 'pipeline', {
-      pipelineName: 'eform-and-formio-pipeline-main',
+      pipelineName: 'webformulieren-dummy-main-marnix',
       crossAccountKeys: true,
       synth: new cdkpipelines.ShellStep('Synth', {
         input: repository,
