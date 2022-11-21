@@ -23,7 +23,7 @@ export class MyStack extends Stack {
 export class MyStage extends Stage {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
-    new MyStack(this, 'my-stack', {
+    new MyStack(this, 'my-stack-renamed', {
       env: sandbox,
     });
   }
