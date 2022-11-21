@@ -1,5 +1,4 @@
-import { App, Stack, StackProps, Stage } from 'aws-cdk-lib';
-import { aws_s3 as s3, pipelines as cdkpipelines } from 'aws-cdk-lib'
+import { App, Stack, StackProps, Stage, aws_s3 as s3, pipelines as cdkpipelines } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
@@ -14,9 +13,6 @@ const sandbox = {
 };
 
 
-
-
-
 export class MyStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
@@ -28,7 +24,7 @@ export class MyStage extends Stage {
   constructor(scope: Construct, id: string, props: StackProps = {}) {
     super(scope, id, props);
     new MyStack(this, 'my-stack', {
-      env: sandbox
+      env: sandbox,
     });
   }
 }
@@ -39,14 +35,14 @@ const codeStarConnectionArn: string = 'arn:aws:codestar-connections:eu-west-1:41
 export class MyPipeline extends Stack {
 
   constructor(scope: Construct, id: string, props: StackProps = {}) {
-    super(scope, id)
+    super(scope, id, props);
 
     const repository = cdkpipelines.CodePipelineSource.connection('GemeenteNijmegen/webformulieren-dummy', 'main', {
       connectionArn: codeStarConnectionArn,
     });
 
     const pipeline = new cdkpipelines.CodePipeline(this, 'pipeline', {
-      pipelineName: `eform-and-formio-pipeline-main`,
+      pipelineName: 'eform-and-formio-pipeline-main',
       crossAccountKeys: true,
       synth: new cdkpipelines.ShellStep('Synth', {
         input: repository,
@@ -58,7 +54,7 @@ export class MyPipeline extends Stack {
     });
 
 
-    pipeline.addStage(new MyStage(this, 'webformulieren-dummy-my-stage'))
+    pipeline.addStage(new MyStage(this, 'webformulieren-dummy-my-stage'));
 
   }
 
